@@ -1,4 +1,4 @@
-import React, { FC, useContext, useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -24,7 +24,6 @@ const useAuthContext = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
-  const [isAdmin, setIsAdmin] = useState(false);
   const isLoading = user === undefined;
 
   onAuthStateChanged(auth, async (user) => {
@@ -59,12 +58,12 @@ const AuthProvider = ({ children }) => {
     () => ({
       user,
       isLoading,
-      isSignedIn: !isLoading && !!user && isAdmin,
+      isSignedIn: !isLoading && !!user,
       logIn,
       logOut,
       register
     }),
-    [user, isLoading, isAdmin]
+    [user, isLoading]
   );
 
   return (
