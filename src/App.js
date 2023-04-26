@@ -1,12 +1,10 @@
 import { getDatabase, ref, child, get } from "firebase/database";
-import { getAuth } from "firebase/auth";
 import logo from './logo.svg';
 import './App.css';
-import firebaseApp from "./firebase";
+import { useAuthContext } from "./contexts/auth";
 
 const App = () => {
-  const database = getDatabase(firebaseApp);
-  const auth = getAuth(firebaseApp);
+  const { register } = useAuthContext();
 
   const dbRef = ref(getDatabase());
   const refPath = "test";
@@ -19,6 +17,16 @@ const App = () => {
   }).catch((error) => {
     console.error(error);
   });
+
+  const doSignUp = async () => {
+    const username = 'test';
+    const password = 'dddadad';
+
+    await register({
+      username,
+      password
+    });
+  }
 
   return (
     <div className="App">
@@ -35,6 +43,7 @@ const App = () => {
         >
           Learn React
         </a>
+        <button onClick={doSignUp}>Sign up</button>
       </header>
     </div>
   );
