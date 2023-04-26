@@ -2,9 +2,9 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import logo from './logo.svg';
 import './App.css';
+import firebaseApp from "./firebase";
 
-const App = (props) => {
-  const { firebaseApp } = props;
+const App = () => {
   const database = getDatabase(firebaseApp);
   const auth = getAuth(firebaseApp);
 
