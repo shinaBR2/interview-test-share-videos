@@ -33,3 +33,17 @@ For signed in users only
 
 ### Integration test
 - Render items correctly
+
+
+# High level steps
+
+The tech stack I will use for this:
+- Firebase
+- ReactJS + MUI + react-testing-library
+- Github Actions
+
+We will follow these steps:
+- Data modeling. For this simple test, client-side and server-side has the same data model, no conversion.
+- Init Firebase project
+- Write test cases
+- Implement coding and tests
