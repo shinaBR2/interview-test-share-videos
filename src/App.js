@@ -2,6 +2,7 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import logo from './logo.svg';
 import './App.css';
 import { useAuthContext } from "./contexts/auth";
+import { Button } from "@mui/material";
 
 const App = () => {
   const { register } = useAuthContext();
@@ -43,7 +44,7 @@ const App = () => {
         >
           Learn React
         </a>
-        <button onClick={doSignUp}>Sign up</button>
+        <Button onClick={doSignUp}>Sign up</Button>
       </header>
     </div>
   );
