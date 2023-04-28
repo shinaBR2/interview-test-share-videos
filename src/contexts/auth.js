@@ -7,9 +7,18 @@ import {
   signOut,
 } from "firebase/auth";
 import firebaseApp from "../firebase";
+import pw from "a-promise-wrapper";
 
 const auth = getAuth(firebaseApp);
-const genEmail = username => `${username}@gmail.com`;
+const sanitizeUsername = (str) => {
+  if (!str) {
+    return "";
+  }
+
+  const s = str.toLowerCase().replace(/[^a-z0-9áéíóúñü \\.,_-]/gim, "");
+  return s.trim();
+};
+const genEmail = (username) => `${sanitizeUsername(username)}@gmail.com`;
 
 const AuthContext = React.createContext({
   user: undefined,
@@ -40,7 +49,7 @@ const AuthProvider = ({ children }) => {
     const { username, password } = credentials;
     const email = genEmail(username);
 
-    await signInWithEmailAndPassword(auth, email, password);
+    return await pw(signInWithEmailAndPassword(auth, email, password));
   };
 
   const logOut = async () => {
@@ -51,8 +60,8 @@ const AuthProvider = ({ children }) => {
     const { username, password } = credentials;
     const email = genEmail(username);
 
-    await createUserWithEmailAndPassword(auth, email, password);
-  }
+    return await pw(createUserWithEmailAndPassword(auth, email, password));
+  };
 
   const contextValue = useMemo(
     () => ({
@@ -61,7 +70,7 @@ const AuthProvider = ({ children }) => {
       isSignedIn: !isLoading && !!user,
       logIn,
       logOut,
-      register
+      register,
     }),
     [user, isLoading]
   );
