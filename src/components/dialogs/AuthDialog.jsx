@@ -7,8 +7,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { Box } from '@mui/material';
 
-const AuthDialog = () => {
+const AuthDialog = (props) => {
   const { open, handleClose, onSubmit } = props;
   const [value, setValue] = React.useState(0);
 

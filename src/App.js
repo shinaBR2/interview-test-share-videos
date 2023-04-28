@@ -4,6 +4,7 @@ import { Container } from "@mui/material";
 import Header from "./components/header";
 import Loader from "./components/loader";
 import { AuthDialog, ShareDialog } from "./components/dialogs";
+import React from "react";
 
 const App = () => {
   const { isLoading, register } = useAuthContext();
