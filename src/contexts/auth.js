@@ -15,7 +15,7 @@ const sanitizeUsername = str => {
     return '';
   }
 
-  const s = str.toLowerCase().replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
+  const s = str.toLowerCase().replace(/[^a-z0-9áéíóúñü \\.,_-]/gim, "");
   return s.trim();
 }
 const genEmail = username => `${sanitizeUsername(username)}@gmail.com`;
