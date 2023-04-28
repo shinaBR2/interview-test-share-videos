@@ -1,4 +1,3 @@
-import { getDatabase, ref, child, get } from "firebase/database";
 import { useAuthContext } from "./contexts/auth";
 import { Container } from "@mui/material";
 import Header from "./components/header";
@@ -15,17 +14,6 @@ const App = () => {
   const shareFunc = useShareMovie();
   const { movies, isLoading: isMoviesLoading } = useListenMovies();
 
-  const dbRef = ref(getDatabase());
-  const refPath = "test";
-  get(child(dbRef, refPath)).then((snapshot) => {
-    if (snapshot.exists()) {
-      console.log(snapshot.val());
-    } else {
-      console.log("No data available");
-    }
-  }).catch((error) => {
-    console.error(error);
-  });
 
   const doAuth = async (action, formValues) => {
     const allowedActions = ['register', 'login'];
@@ -51,6 +39,7 @@ const App = () => {
     }
   }
 
+  console.log("App rendered", isMoviesLoading);
 
   const openShareDialog = () => {
     setIsOpenedShareDialog(true);
