@@ -14,9 +14,8 @@ const App = () => {
   const shareFunc = useShareMovie();
   const { movies, isLoading: isMoviesLoading } = useListenMovies();
 
-
   const doAuth = async (action, formValues) => {
-    const allowedActions = ['register', 'login'];
+    const allowedActions = ["register", "login"];
 
     if (allowedActions.indexOf(action) === -1) {
       return;
@@ -28,44 +27,55 @@ const App = () => {
       console.log("register");
       return await register({
         username,
-        password
+        password,
       });
     } else {
       console.log("login");
       return await logIn({
         username,
-        password
+        password,
       });
     }
-  }
+  };
 
   console.log("App rendered", isMoviesLoading);
 
   const openShareDialog = () => {
     setIsOpenedShareDialog(true);
-  }
+  };
   const closeShareDialog = () => {
     setIsOpenedShareDialog(false);
-  }
+  };
   const openAuthDialog = () => {
     setIsOpenedAuthDialog(true);
-  }
+  };
   const closeAuthDialog = () => {
     setIsOpenedAuthDialog(false);
-  }
+  };
 
   if (isAuthLoading) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
     <Container>
-      <Header openShareDialog={openShareDialog} openAuthDialog={openAuthDialog} />
+      <Header
+        openShareDialog={openShareDialog}
+        openAuthDialog={openAuthDialog}
+      />
       <MovieList list={movies} isLoading={isMoviesLoading} />
-      <ShareDialog open={isOpenedShareDialog} handleClose={closeShareDialog} onSubmit={shareFunc} />
-      <AuthDialog open={isOpenedAuthDialog} handleClose={closeAuthDialog} onSubmit={doAuth} />
+      <ShareDialog
+        open={isOpenedShareDialog}
+        handleClose={closeShareDialog}
+        onSubmit={shareFunc}
+      />
+      <AuthDialog
+        open={isOpenedAuthDialog}
+        handleClose={closeAuthDialog}
+        onSubmit={doAuth}
+      />
     </Container>
   );
-}
+};
 
 export default App;

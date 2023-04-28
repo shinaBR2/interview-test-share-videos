@@ -7,11 +7,16 @@ const MovieList = (props) => {
   if (isLoading) {
     return (
       <Container>
-        <Grid container direction="column" justifyContent="center" sx={{ width: '100%', height: "150px" }}>
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          sx={{ width: "100%", height: "150px" }}
+        >
           <LinearProgress />
         </Grid>
       </Container>
-    )
+    );
   }
 
   if (!list || !list.length) {
@@ -19,16 +24,20 @@ const MovieList = (props) => {
       <Container>
         <Typography>There are no movies</Typography>
       </Container>
-    )
+    );
   }
 
   return (
     <Container>
       <Grid container alignItems="center" spacing={2} my={4}>
-        {list.map(v => <Grid key={v.id} item container width="100%" justifyContent="center"><MovieItem video={v} /></Grid>)}
+        {list.map((v) => (
+          <Grid key={v.id} item container width="100%" justifyContent="center">
+            <MovieItem video={v} />
+          </Grid>
+        ))}
       </Grid>
     </Container>
-  )
+  );
 };
 
 export default MovieList;

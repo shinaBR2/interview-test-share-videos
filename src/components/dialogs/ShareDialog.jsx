@@ -1,12 +1,12 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 const schema = yup.object({
@@ -15,8 +15,12 @@ const schema = yup.object({
 
 const ShareDialog = (props) => {
   const { open, handleClose, onSubmit } = props;
-  const { control, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(schema)
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
   });
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
@@ -26,7 +30,7 @@ const ShareDialog = (props) => {
     await onSubmit(url);
     setIsSubmitting(false);
     handleClose();
-  }
+  };
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -46,8 +50,8 @@ const ShareDialog = (props) => {
                 type="text"
                 fullWidth
                 variant="standard"
-                error={!!errors['url']}
-                helperText={errors['url']?.message}
+                error={!!errors["url"]}
+                helperText={errors["url"]?.message}
                 {...field}
               />
             )}
@@ -55,11 +59,13 @@ const ShareDialog = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit" disabled={isSubmitting}>Share</Button>
+          <Button type="submit" disabled={isSubmitting}>
+            Share
+          </Button>
         </DialogActions>
       </form>
     </Dialog>
-  )
+  );
 };
 
 export default ShareDialog;

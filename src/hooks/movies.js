@@ -5,14 +5,12 @@ const refPath = "movies";
 const moviesRef = ref(getDatabase(), refPath);
 
 // https://stackoverflow.com/a/21607897/8270395
-const getYoutubeVideoId = url => {
+const getYoutubeVideoId = (url) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
   const match = url.match(regExp);
 
-  return (match && match[2].length === 11)
-    ? match[2]
-    : null;
-}
+  return match && match[2].length === 11 ? match[2] : null;
+};
 
 const useShareMovie = () => {
   const newMovieRef = push(moviesRef);
@@ -20,9 +18,9 @@ const useShareMovie = () => {
   return async (url) => {
     const embedURL = `https://www.youtube.com/embed/${getYoutubeVideoId(url)}`;
     await set(newMovieRef, {
-      url: embedURL
-    })
-  }
+      url: embedURL,
+    });
+  };
 };
 
 const useListenMovies = () => {
@@ -39,23 +37,22 @@ const useListenMovies = () => {
           const { url } = data;
           arr.push({
             id,
-            url
-          })
+            url,
+          });
         }
       });
 
-      console.log('onValue called');
+      console.log("onValue called");
       setMovies(arr);
     });
 
     return () => q;
   }, []);
 
-
   return {
     movies,
-    isLoading: typeof movies === "undefined"
-  }
-}
+    isLoading: typeof movies === "undefined",
+  };
+};
 
-export { useShareMovie, useListenMovies }
+export { useShareMovie, useListenMovies };

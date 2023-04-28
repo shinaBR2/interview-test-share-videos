@@ -10,24 +10,23 @@ import firebaseApp from "../firebase";
 import pw from "a-promise-wrapper";
 
 const auth = getAuth(firebaseApp);
-const sanitizeUsername = str => {
+const sanitizeUsername = (str) => {
   if (!str) {
-    return '';
+    return "";
   }
 
   const s = str.toLowerCase().replace(/[^a-z0-9áéíóúñü \\.,_-]/gim, "");
   return s.trim();
-}
-const genEmail = username => `${sanitizeUsername(username)}@gmail.com`;
-
+};
+const genEmail = (username) => `${sanitizeUsername(username)}@gmail.com`;
 
 const AuthContext = React.createContext({
   user: undefined,
   isLoading: true,
   isSignedIn: false,
-  logIn: async () => { },
-  logOut: async () => { },
-  register: async () => { },
+  logIn: async () => {},
+  logOut: async () => {},
+  register: async () => {},
 });
 
 const useAuthContext = () => useContext(AuthContext);
@@ -62,7 +61,7 @@ const AuthProvider = ({ children }) => {
     const email = genEmail(username);
 
     return await pw(createUserWithEmailAndPassword(auth, email, password));
-  }
+  };
 
   const contextValue = useMemo(
     () => ({
@@ -71,7 +70,7 @@ const AuthProvider = ({ children }) => {
       isSignedIn: !isLoading && !!user,
       logIn,
       logOut,
-      register
+      register,
     }),
     [user, isLoading]
   );
