@@ -9,11 +9,21 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Box } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+
+const schema = yup.object({
+  username: yup.string().required(),
+  password: yup.string().required(),
+});
 
 const AuthDialog = (props) => {
   const { open, handleClose, onSubmit } = props;
   const [tabValue, setTabValue] = React.useState(0);
-  const { control, handleSubmit, formState: { errors } } = useForm();
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(schema)
+  });
+  console.log(errors)
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -57,6 +67,8 @@ const AuthDialog = (props) => {
                 variant="standard"
                 fullWidth
                 type="text"
+                error={!!errors['username']}
+                helperText={errors['username'].message}
                 {...field}
               />
             )}
@@ -74,6 +86,8 @@ const AuthDialog = (props) => {
                 variant="standard"
                 fullWidth
                 type="password"
+                error={!!errors['password']}
+                helperText={errors['password'].message}
                 {...field}
               />
             )}
