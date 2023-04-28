@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import Header from './Header';
 import { AuthContext } from '../../contexts/auth';
 
@@ -36,7 +35,10 @@ describe("Header for anonymous visitors", () => {
 
 describe("Header for signed in users", () => {
   const contextValue = {
-    isSignedIn: true
+    isSignedIn: true,
+    user: {
+      email: 'test@gmail.com'
+    }
   };
 
   it("should render share movie button", () => {
@@ -52,7 +54,17 @@ describe("Header for signed in users", () => {
 
     expect(element).toBeInTheDocument();
   });
-  it("should render user information correctly", () => { });
+  it("should render user information correctly", () => {
+    render(
+      <AuthContext.Provider value={contextValue}>
+        <Header />
+      </AuthContext.Provider>
+    );
+
+    const element = screen.getByText(/Welcome test/i);
+
+    expect(element).toBeInTheDocument();
+  });
   it("should render sign out button", () => {
     render(
       <AuthContext.Provider value={contextValue}>
