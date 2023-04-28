@@ -1,16 +1,57 @@
-import { getDatabase, ref, push, set } from "firebase/database";
+import { getDatabase, ref, push, set, onValue } from "firebase/database";
+import { useState } from "react";
+
+const refPath = "movies";
+const moviesRef = ref(getDatabase(), refPath);
+
+// https://stackoverflow.com/a/21607897/8270395
+const getYoutubeVideoId = url => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+
+  return (match && match[2].length === 11)
+    ? match[2]
+    : null;
+}
 
 const useShareMovie = () => {
-  const refPath = "movies";
-  const moviesRef = ref(getDatabase(), refPath);
   const newMovieRef = push(moviesRef);
 
   return async (url) => {
-    // TODO
+    const embedURL = `https://www.youtube.com/embed/${getYoutubeVideoId(url)}`;
     await set(newMovieRef, {
-      url
+      url: embedURL
     })
   }
 };
 
-export { useShareMovie }
+const useListenMovies = () => {
+  const [movies, setMovies] = useState();
+
+  onValue(moviesRef, (snapshot) => {
+    const arr = [];
+    snapshot.forEach((movieSnapshot) => {
+      const id = movieSnapshot.key;
+      const data = movieSnapshot.val();
+
+      if (data) {
+        const { url } = data;
+        arr.push({
+          id,
+          url
+        })
+      }
+    });
+
+    setMovies(arr);
+  }, {
+    onlyOnce: true
+  });
+
+  return {
+    movies,
+    isLoading: typeof movies === "undefined"
+  }
+}
+
+export { useShareMovie, useListenMovies }
