@@ -18,10 +18,13 @@ const ShareDialog = (props) => {
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema)
   });
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const internalSubmit = async (data) => {
     const { url } = data;
+    setIsSubmitting(true);
     await onSubmit(url);
+    setIsSubmitting(false);
     handleClose();
   }
 
@@ -52,7 +55,7 @@ const ShareDialog = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Share</Button>
+          <Button type="submit" disabled={isSubmitting}>Share</Button>
         </DialogActions>
       </form>
     </Dialog>
