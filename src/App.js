@@ -1,6 +1,4 @@
 import { getDatabase, ref, child, get } from "firebase/database";
-import logo from './logo.svg';
-import './App.css';
 import { useAuthContext } from "./contexts/auth";
 import { Button, Container } from "@mui/material";
 import Header from "./components/header";
@@ -36,12 +34,10 @@ const App = () => {
   }
 
   return (
-    <div className="App">
-      <Container>
-        <Header />
-        <Button onClick={doSignUp}>Sign up</Button>
-      </Container>
-    </div>
+    <Container>
+      <Header />
+      <Button onClick={doSignUp}>Sign up</Button>
+    </Container>
   );
 }
 
