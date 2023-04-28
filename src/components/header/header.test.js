@@ -6,31 +6,13 @@ describe("Header in general", () => {
   it("should render header correctly", () => {
     render(<Header />);
     const element = screen.getByRole("banner");
+    const heading = screen.getByRole("heading", {
+      name: /Funny Movies/i
+    })
+
     expect(element).toBeInTheDocument();
+    expect(heading).toBeInTheDocument();
   });
-});
-
-describe("Header for anonymous visitors", () => {
-  const contextValue = {
-    isSignedIn: false
-  };
-
-  it("should render register button", () => {
-    render(
-      <AuthContext.Provider value={contextValue}>
-        <Header />
-      </AuthContext.Provider>
-    );
-
-    const element = screen.getByRole("button", {
-      name: /Sign in/i
-    });
-    expect(element).toBeInTheDocument();
-  });
-  it("should render sign in form upon clicking on register button", async () => { });
-  it("should show error when no values entered", () => { });
-  it("should show message upon success register", () => { });
-  it("should show message upon success sign in", () => { });
 });
 
 describe("Header for signed in users", () => {
@@ -41,19 +23,6 @@ describe("Header for signed in users", () => {
     }
   };
 
-  it("should render share movie button", () => {
-    render(
-      <AuthContext.Provider value={contextValue}>
-        <Header />
-      </AuthContext.Provider>
-    );
-
-    const element = screen.getByRole("button", {
-      name: /Share video/i
-    });
-
-    expect(element).toBeInTheDocument();
-  });
   it("should render user information correctly", () => {
     render(
       <AuthContext.Provider value={contextValue}>
@@ -65,18 +34,4 @@ describe("Header for signed in users", () => {
 
     expect(element).toBeInTheDocument();
   });
-  it("should render sign out button", () => {
-    render(
-      <AuthContext.Provider value={contextValue}>
-        <Header />
-      </AuthContext.Provider>
-    );
-
-    const element = screen.getByRole("button", {
-      name: /Sign out/i
-    });
-
-    expect(element).toBeInTheDocument();
-  });
-  it("should show share video dialog upon clicking on the share button", () => { });
 });

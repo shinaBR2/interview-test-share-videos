@@ -14,7 +14,7 @@ const Header = (props) => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography role="heading" variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Funny Movies
         </Typography>
         <Typography component="div" sx={{ flexGrow: 1 }}>
