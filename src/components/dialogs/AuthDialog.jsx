@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { Box } from '@mui/material';
+import { Alert, Box } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -21,35 +21,54 @@ const AuthDialog = (props) => {
   const { open, handleClose, onSubmit } = props;
   const [tabValue, setTabValue] = React.useState(0);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [isError, setIsError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema)
   });
-  console.log(errors)
+  console.log(errors);
 
+  const onClose = () => {
+    setIsError(false);
+    setIsSubmitting(false);
+    setErrorMessage('');
+    handleClose();
+  };
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
   const internalSubmit = async data => {
     console.log(data);
-    if (tabValue === 0) {
-      setIsSubmitting(true);
-      await onSubmit('register', data);
-      setIsSubmitting(false);
-      handleClose();
-    } else if (tabValue === 1) {
-      setIsSubmitting(true);
-      await onSubmit('login', data);
-      setIsSubmitting(false);
-      handleClose();
-    } else {
-      // Invalid state
+    const allowedValues = [0, 1];
+
+    if (allowedValues.indexOf(tabValue) === -1) {
+      return;
     }
+
+    setIsSubmitting(true);
+    const action = tabValue === 0 ? 'register' : 'login';
+    const res = await onSubmit(action, data);
+    const { error } = res;
+    console.log(res);
+
+    setIsSubmitting(false);
+
+    if (error) {
+      setIsError(true);
+      setErrorMessage(error.message);
+
+      return;
+    }
+
+    setIsError(false);
+    setErrorMessage('');
+    onClose();
   };
 
   const actionLabel = tabValue === 0 ? 'Register' : 'Login';
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={onClose} keepMounted={true}>
       <DialogTitle>Sign in</DialogTitle>
       <Box sx={{ width: '100%' }}>
         <Tabs value={tabValue} onChange={handleTabChange} centered>
@@ -97,6 +116,11 @@ const AuthDialog = (props) => {
               />
             )}
           />
+          {!!isError && (
+            <Alert variant="filled" severity="error">
+              {errorMessage}
+            </Alert>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

@@ -26,13 +26,13 @@ const App = () => {
 
     if (action === allowedActions[0]) {
       console.log("register");
-      await register({
+      return await register({
         username,
         password
       });
     } else {
       console.log("login");
-      await logIn({
+      return await logIn({
         username,
         password
       });
