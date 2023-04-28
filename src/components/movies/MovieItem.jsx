@@ -10,6 +10,7 @@ const MovieItem = (props) => {
     <Card sx={{ width: 614 }}>
       <CardMedia
         component="iframe"
+        title="embed"
         src={url}
         height="345"
         width="614"
