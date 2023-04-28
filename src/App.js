@@ -36,8 +36,14 @@ const App = () => {
   const openShareDialog = () => {
     setIsOpenedShareDialog(true);
   }
+  const closeShareDialog = () => {
+    setIsOpenedShareDialog(false);
+  }
   const openAuthDialog = () => {
     setIsOpenedAuthDialog(true);
+  }
+  const closeAuthDialog = () => {
+    setIsOpenedAuthDialog(false);
   }
 
   if (isLoading) {
@@ -47,8 +53,8 @@ const App = () => {
   return (
     <Container>
       <Header openShareDialog={openShareDialog} openAuthDialog={openAuthDialog} />
-      <ShareDialog open={isOpenedShareDialog} />
-      <AuthDialog open={isOpenedAuthDialog} />
+      <ShareDialog open={isOpenedShareDialog} handleClose={closeShareDialog} />
+      <AuthDialog open={isOpenedAuthDialog} handleClose={closeAuthDialog} />
     </Container>
   );
 }
