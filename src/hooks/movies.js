@@ -1,5 +1,5 @@
 import { getDatabase, ref, push, set, onValue } from "firebase/database";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const refPath = "movies";
 const moviesRef = ref(getDatabase(), refPath);
@@ -28,25 +28,29 @@ const useShareMovie = () => {
 const useListenMovies = () => {
   const [movies, setMovies] = useState();
 
-  onValue(moviesRef, (snapshot) => {
-    const arr = [];
-    snapshot.forEach((movieSnapshot) => {
-      const id = movieSnapshot.key;
-      const data = movieSnapshot.val();
+  useEffect(() => {
+    const q = onValue(moviesRef, (snapshot) => {
+      const arr = [];
+      snapshot.forEach((movieSnapshot) => {
+        const id = movieSnapshot.key;
+        const data = movieSnapshot.val();
 
-      if (data) {
-        const { url } = data;
-        arr.push({
-          id,
-          url
-        })
-      }
+        if (data) {
+          const { url } = data;
+          arr.push({
+            id,
+            url
+          })
+        }
+      });
+
+      console.log('onValue called');
+      setMovies(arr);
     });
 
-    setMovies(arr);
-  }, {
-    onlyOnce: true
-  });
+    return () => q;
+  }, []);
+
 
   return {
     movies,
