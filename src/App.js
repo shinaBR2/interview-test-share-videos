@@ -2,10 +2,12 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import logo from './logo.svg';
 import './App.css';
 import { useAuthContext } from "./contexts/auth";
-import { Button } from "@mui/material";
+import { Button, Container } from "@mui/material";
+import Header from "./components/header";
+import Loader from "./components/loader";
 
 const App = () => {
-  const { register } = useAuthContext();
+  const { isLoading, register } = useAuthContext();
 
   const dbRef = ref(getDatabase());
   const refPath = "test";
@@ -29,23 +31,16 @@ const App = () => {
     });
   }
 
+  if (isLoading) {
+    return <Loader />
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <Container>
+        <Header />
         <Button onClick={doSignUp}>Sign up</Button>
-      </header>
+      </Container>
     </div>
   );
 }
