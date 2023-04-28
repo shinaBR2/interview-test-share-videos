@@ -5,13 +5,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { Controller, useForm } from 'react-hook-form';
 
 const ShareDialog = (props) => {
   const { open, handleClose, onSubmit } = props;
+  const { control, handleSubmit, formState: { errors } } = useForm();
 
-  const handleSubmit = async () => {
-    // TODO
-    const url = '';
+  const internalSubmit = async (data) => {
+    const { url } = data;
     await onSubmit(url);
     handleClose();
   }
@@ -19,22 +20,32 @@ const ShareDialog = (props) => {
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Share a movie</DialogTitle>
-      <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="movieURL"
-          label="Movie URL"
-          type="text"
-          fullWidth
-          variant="standard"
-          name="movieURL"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>Share</Button>
-      </DialogActions>
+      <form onSubmit={handleSubmit(internalSubmit)}>
+        <DialogContent>
+          <Controller
+            name="url"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField
+                autoFocus
+                margin="dense"
+                id="url"
+                label="Movie URL"
+                type="text"
+                fullWidth
+                variant="standard"
+                name="url"
+                {...field}
+              />
+            )}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button type="submit">Share</Button>
+        </DialogActions>
+      </form>
     </Dialog>
   )
 };
