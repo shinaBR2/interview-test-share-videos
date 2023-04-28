@@ -10,15 +10,14 @@ const MovieItem = (props) => {
   const { id, url } = video;
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
-        <CardMedia
-          component="iframe"
-          src={url}
-          height="345"
-          alt={`video-${id}`}
-        />
-      </CardActionArea>
+    <Card sx={{ width: 614 }}>
+      <CardMedia
+        component="iframe"
+        src={url}
+        height="345"
+        width="614"
+        alt={`video-${id}`}
+      />
     </Card>
   )
 };
