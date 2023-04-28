@@ -4,10 +4,17 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const ShareDialog = () => {
+const ShareDialog = (props) => {
+  const { open, handleClose, onSubmit } = props;
+
+  const handleSubmit = () => {
+    // TODO
+    const url = '';
+    onSubmit(url);
+  }
+
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Share a movie</DialogTitle>
@@ -25,7 +32,7 @@ const ShareDialog = () => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose}>Share</Button>
+        <Button onClick={handleSubmit}>Share</Button>
       </DialogActions>
     </Dialog>
   )
