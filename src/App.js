@@ -1,11 +1,14 @@
 import { getDatabase, ref, child, get } from "firebase/database";
 import { useAuthContext } from "./contexts/auth";
-import { Button, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import Header from "./components/header";
 import Loader from "./components/loader";
+import { AuthDialog, ShareDialog } from "./components/dialogs";
 
 const App = () => {
   const { isLoading, register } = useAuthContext();
+  const [isOpenedShareDialog, setIsOpenedShareDialog] = React.useState(false);
+  const [isOpenedAuthDialog, setIsOpenedAuthDialog] = React.useState(false);
 
   const dbRef = ref(getDatabase());
   const refPath = "test";
@@ -29,14 +32,22 @@ const App = () => {
     });
   }
 
+  const openShareDialog = () => {
+    setIsOpenedShareDialog(true);
+  }
+  const openAuthDialog = () => {
+    setIsOpenedAuthDialog(true);
+  }
+
   if (isLoading) {
     return <Loader />
   }
 
   return (
     <Container>
-      <Header />
-      <Button onClick={doSignUp}>Sign up</Button>
+      <Header openShareDialog={openShareDialog} openAuthDialog={openAuthDialog} />
+      <ShareDialog open={isOpenedShareDialog} />
+      <AuthDialog open={isOpenedAuthDialog} />
     </Container>
   );
 }
