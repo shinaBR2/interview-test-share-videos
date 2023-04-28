@@ -20,6 +20,7 @@ const schema = yup.object({
 const AuthDialog = (props) => {
   const { open, handleClose, onSubmit } = props;
   const [tabValue, setTabValue] = React.useState(0);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema)
   });
@@ -31,10 +32,14 @@ const AuthDialog = (props) => {
   const internalSubmit = async data => {
     console.log(data);
     if (tabValue === 0) {
+      setIsSubmitting(true);
       await onSubmit('register', data);
+      setIsSubmitting(false);
       handleClose();
     } else if (tabValue === 1) {
+      setIsSubmitting(true);
       await onSubmit('login', data);
+      setIsSubmitting(false);
       handleClose();
     } else {
       // Invalid state
@@ -95,7 +100,7 @@ const AuthDialog = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">{actionLabel}</Button>
+          <Button type="submit" disabled={isSubmitting}>{actionLabel}</Button>
         </DialogActions>
       </form>
     </Dialog>
