@@ -35,7 +35,6 @@ const ShareDialog = (props) => {
                 type="text"
                 fullWidth
                 variant="standard"
-                name="url"
                 {...field}
               />
             )}
