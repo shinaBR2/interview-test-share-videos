@@ -5,11 +5,13 @@ import Header from "./components/header";
 import Loader from "./components/loader";
 import { AuthDialog, ShareDialog } from "./components/dialogs";
 import React from "react";
+import { useShareMovie } from "./hooks/movies";
 
 const App = () => {
   const { isLoading, register, logIn } = useAuthContext();
   const [isOpenedShareDialog, setIsOpenedShareDialog] = React.useState(false);
   const [isOpenedAuthDialog, setIsOpenedAuthDialog] = React.useState(false);
+  const shareFunc = useShareMovie();
 
   const dbRef = ref(getDatabase());
   const refPath = "test";
@@ -47,6 +49,7 @@ const App = () => {
     }
   }
 
+
   const openShareDialog = () => {
     setIsOpenedShareDialog(true);
   }
@@ -67,7 +70,7 @@ const App = () => {
   return (
     <Container>
       <Header openShareDialog={openShareDialog} openAuthDialog={openAuthDialog} />
-      <ShareDialog open={isOpenedShareDialog} handleClose={closeShareDialog} />
+      <ShareDialog open={isOpenedShareDialog} handleClose={closeShareDialog} onSubmit={shareFunc} />
       <AuthDialog open={isOpenedAuthDialog} handleClose={closeAuthDialog} onSubmit={doAuth} />
     </Container>
   );

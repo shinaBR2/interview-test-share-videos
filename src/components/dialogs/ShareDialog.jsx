@@ -9,10 +9,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 const ShareDialog = (props) => {
   const { open, handleClose, onSubmit } = props;
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // TODO
     const url = '';
-    onSubmit(url);
+    await onSubmit(url);
+    handleClose();
   }
 
   return (
