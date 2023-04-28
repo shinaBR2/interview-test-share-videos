@@ -72,7 +72,7 @@ const App = () => {
   return (
     <Container>
       <Header openShareDialog={openShareDialog} openAuthDialog={openAuthDialog} />
-      <MovieList list={movies} />
+      <MovieList list={movies} isLoading={isMoviesLoading} />
       <ShareDialog open={isOpenedShareDialog} handleClose={closeShareDialog} onSubmit={shareFunc} />
       <AuthDialog open={isOpenedAuthDialog} handleClose={closeAuthDialog} onSubmit={doAuth} />
     </Container>

@@ -4,7 +4,7 @@ import MovieItem from "./MovieItem";
 const MovieList = (props) => {
   const { list, isLoading } = props;
 
-  if (isLoading || 1) {
+  if (isLoading) {
     return (
       <Container>
         <Grid container direction="column" justifyContent="center" sx={{ width: '100%', height: "150px" }}>
