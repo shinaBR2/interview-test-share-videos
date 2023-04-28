@@ -7,7 +7,7 @@ import { AuthDialog, ShareDialog } from "./components/dialogs";
 import React from "react";
 
 const App = () => {
-  const { isLoading, register } = useAuthContext();
+  const { isLoading, register, logIn } = useAuthContext();
   const [isOpenedShareDialog, setIsOpenedShareDialog] = React.useState(false);
   const [isOpenedAuthDialog, setIsOpenedAuthDialog] = React.useState(false);
 
@@ -23,14 +23,26 @@ const App = () => {
     console.error(error);
   });
 
-  const doSignUp = async () => {
-    const username = 'test';
-    const password = 'dddadad';
+  const doAuth = async (action, formValues) => {
+    const allowedActions = ['register', 'login'];
 
-    await register({
-      username,
-      password
-    });
+    if (allowedActions.indexOf(action) === -1) {
+      return;
+    }
+
+    const { username, password } = formValues;
+
+    if (action === allowedActions[0]) {
+      await register({
+        username,
+        password
+      });
+    } else {
+      await logIn({
+        username,
+        password
+      });
+    }
   }
 
   const openShareDialog = () => {
@@ -54,7 +66,7 @@ const App = () => {
     <Container>
       <Header openShareDialog={openShareDialog} openAuthDialog={openAuthDialog} />
       <ShareDialog open={isOpenedShareDialog} handleClose={closeShareDialog} />
-      <AuthDialog open={isOpenedAuthDialog} handleClose={closeAuthDialog} />
+      <AuthDialog open={isOpenedAuthDialog} handleClose={closeAuthDialog} onSubmit={doAuth} />
     </Container>
   );
 }
