@@ -33,11 +33,13 @@ const App = () => {
     const { username, password } = formValues;
 
     if (action === allowedActions[0]) {
+      console.log("register");
       await register({
         username,
         password
       });
     } else {
+      console.log("login");
       await logIn({
         username,
         password

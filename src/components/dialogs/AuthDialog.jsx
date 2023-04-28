@@ -8,63 +8,82 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Box } from '@mui/material';
+import { Controller, useForm } from 'react-hook-form';
 
 const AuthDialog = (props) => {
   const { open, handleClose, onSubmit } = props;
-  const [value, setValue] = React.useState(0);
+  const [tabValue, setTabValue] = React.useState(0);
+  const { control, handleSubmit, formState: { errors } } = useForm();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
   };
-  const handleSubmit = () => {
-    if (value === 0) {
-      // TODO register
-      onSubmit('register');
-    } else if (value === 1) {
-      // TODO login
-      onSubmit('login');
+  const internalSubmit = async data => {
+    console.log(data);
+    if (tabValue === 0) {
+      await onSubmit('register', data);
+      handleClose();
+    } else if (tabValue === 1) {
+      await onSubmit('login', data);
+      handleClose();
     } else {
       // Invalid state
     }
-  }
+  };
 
-  const actionLabel = value === 0 ? 'Register' : 'Login';
+  const actionLabel = tabValue === 0 ? 'Register' : 'Login';
 
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Sign in</DialogTitle>
       <Box sx={{ width: '100%' }}>
-        <Tabs value={value} onChange={handleChange} centered>
+        <Tabs value={tabValue} onChange={handleTabChange} centered>
           <Tab label="Register" />
           <Tab label="Login" />
         </Tabs>
       </Box>
-      <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="username"
-          label="Username"
-          type="text"
-          fullWidth
-          variant="standard"
-          name="username"
-        />
-        <TextField
-          autoFocus
-          margin="dense"
-          id="password"
-          label="password"
-          type="password"
-          fullWidth
-          variant="standard"
-          name="password"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>{actionLabel}</Button>
-      </DialogActions>
+      <form onSubmit={handleSubmit(internalSubmit)}>
+        <DialogContent>
+          <Controller
+            name="username"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField
+                autoFocus
+                margin="dense"
+                id="username"
+                label="Username"
+                variant="standard"
+                fullWidth
+                type="text"
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name="password"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField
+                autoFocus
+                margin="dense"
+                id="password"
+                label="Password"
+                variant="standard"
+                fullWidth
+                type="password"
+                {...field}
+              />
+            )}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button type="submit">{actionLabel}</Button>
+        </DialogActions>
+      </form>
     </Dialog>
   )
 };
