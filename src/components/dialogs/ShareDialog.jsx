@@ -6,10 +6,18 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+
+const schema = yup.object({
+  url: yup.string().required(),
+});
 
 const ShareDialog = (props) => {
   const { open, handleClose, onSubmit } = props;
-  const { control, handleSubmit, formState: { errors } } = useForm();
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(schema)
+  });
 
   const internalSubmit = async (data) => {
     const { url } = data;
@@ -35,6 +43,8 @@ const ShareDialog = (props) => {
                 type="text"
                 fullWidth
                 variant="standard"
+                error={!!errors['url']}
+                helperText={errors['url']?.message}
                 {...field}
               />
             )}

@@ -68,7 +68,7 @@ const AuthDialog = (props) => {
                 fullWidth
                 type="text"
                 error={!!errors['username']}
-                helperText={errors['username'].message}
+                helperText={errors['username']?.message}
                 {...field}
               />
             )}
@@ -87,7 +87,7 @@ const AuthDialog = (props) => {
                 fullWidth
                 type="password"
                 error={!!errors['password']}
-                helperText={errors['password'].message}
+                helperText={errors['password']?.message}
                 {...field}
               />
             )}
