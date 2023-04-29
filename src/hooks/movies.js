@@ -29,6 +29,7 @@ const useListenMovies = () => {
   useEffect(() => {
     const q = onValue(moviesRef, (snapshot) => {
       const arr = [];
+
       snapshot.forEach((movieSnapshot) => {
         const id = movieSnapshot.key;
         const data = movieSnapshot.val();
@@ -42,7 +43,6 @@ const useListenMovies = () => {
         }
       });
 
-      console.log("onValue called");
       setMovies(arr);
     });
 
