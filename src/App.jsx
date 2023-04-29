@@ -38,8 +38,6 @@ const App = () => {
     }
   };
 
-  console.log("App rendered", isMoviesLoading);
-
   const openShareDialog = () => {
     setIsOpenedShareDialog(true);
   };
