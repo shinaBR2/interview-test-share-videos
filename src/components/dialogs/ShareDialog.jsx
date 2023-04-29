@@ -40,7 +40,7 @@ const ShareDialog = (props) => {
           <Controller
             name="url"
             control={control}
-            rules={{ required: true }}
+            defaultValue=""
             render={({ field }) => (
               <TextField
                 autoFocus
