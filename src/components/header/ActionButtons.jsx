@@ -12,7 +12,7 @@ const ActionButtons = (props) => {
         <Button color="inherit" onClick={openShareDialog}>
           Share video
         </Button>
-        <Button color="inherit" onClick={logOut}>
+        <Button color="inherit" onClick={logOut} role="button">
           Sign out
         </Button>
       </Box>

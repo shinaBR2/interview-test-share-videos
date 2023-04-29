@@ -24,9 +24,9 @@ const AuthContext = React.createContext({
   user: undefined,
   isLoading: true,
   isSignedIn: false,
-  logIn: async () => {},
-  logOut: async () => {},
-  register: async () => {},
+  logIn: async () => { },
+  logOut: async () => { },
+  register: async () => { },
 });
 
 const useAuthContext = () => useContext(AuthContext);
@@ -80,4 +80,4 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-export { AuthProvider, useAuthContext };
+export { AuthContext, AuthProvider, useAuthContext };

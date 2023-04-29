@@ -30,7 +30,6 @@ const AuthDialog = (props) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  console.log(errors);
 
   const onClose = () => {
     setIsError(false);
@@ -42,7 +41,6 @@ const AuthDialog = (props) => {
     setTabValue(newValue);
   };
   const internalSubmit = async (data) => {
-    console.log(data);
     const allowedValues = [0, 1];
 
     if (allowedValues.indexOf(tabValue) === -1) {
@@ -52,8 +50,7 @@ const AuthDialog = (props) => {
     setIsSubmitting(true);
     const action = tabValue === 0 ? "register" : "login";
     const res = await onSubmit(action, data);
-    const { error } = res;
-    console.log(res);
+    const { error } = res || {};
 
     setIsSubmitting(false);
 
@@ -85,9 +82,10 @@ const AuthDialog = (props) => {
           <Controller
             name="username"
             control={control}
-            rules={{ required: true }}
+            defaultValue=""
             render={({ field }) => (
               <TextField
+                {...field}
                 autoFocus
                 margin="dense"
                 id="username"
@@ -97,16 +95,16 @@ const AuthDialog = (props) => {
                 type="text"
                 error={!!errors["username"]}
                 helperText={errors["username"]?.message}
-                {...field}
               />
             )}
           />
           <Controller
             name="password"
             control={control}
-            rules={{ required: true }}
+            defaultValue=""
             render={({ field }) => (
               <TextField
+                {...field}
                 autoFocus
                 margin="dense"
                 id="password"
@@ -116,7 +114,6 @@ const AuthDialog = (props) => {
                 type="password"
                 error={!!errors["password"]}
                 helperText={errors["password"]?.message}
-                {...field}
               />
             )}
           />
@@ -128,7 +125,7 @@ const AuthDialog = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit" disabled={isSubmitting}>
+          <Button role="button" type="submit" disabled={isSubmitting}>
             {actionLabel}
           </Button>
         </DialogActions>

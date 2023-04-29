@@ -29,9 +29,9 @@ const MovieList = (props) => {
 
   return (
     <Container>
-      <Grid container alignItems="center" spacing={2} my={4}>
+      <Grid container alignItems="center" spacing={2} my={4} role="list">
         {list.map((v) => (
-          <Grid key={v.id} item container width="100%" justifyContent="center">
+          <Grid key={v.id} role="listitem" item container width="100%" justifyContent="center">
             <MovieItem video={v} />
           </Grid>
         ))}
